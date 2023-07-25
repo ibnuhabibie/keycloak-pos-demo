@@ -31,7 +31,7 @@ watch([keycloak, token], ([newKc, oldKc], [newTk, oldTk]) => {
   }
 
   if (newTk) {
-    encodedToken.value = parseJwt(token);
+    encodedToken.value = parseJwt(newTk);
     // @ts-ignore
     fullName.value = encodedToken.value.given_name + ' ' + encodedToken.value.family_name;
   }
