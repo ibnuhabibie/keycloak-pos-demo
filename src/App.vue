@@ -1,16 +1,17 @@
 <script setup>
+// @ts-ignore
 import { computed, ref, watch } from 'vue';
-import axios from 'axios';
+// @ts-ignore
 import { useAppStore } from '@/store';
 import { storeToRefs } from "pinia";
-// import keycloak from 'keycloak-js';
 
+// @ts-ignore
 const appStore = useAppStore()
-const { keycloak } = storeToRefs(appStore);
+const { keycloak, token } = storeToRefs(appStore);
 
 let logoutUrl = ref('');
-
-let token = localStorage.getItem('token')
+let fullName = ref('');
+let encodedToken = ref(null);
 
 function parseJwt(token) {
   var base64Url = token.split('.')[1];
@@ -22,17 +23,21 @@ function parseJwt(token) {
   return JSON.parse(jsonPayload);
 }
 
-let encodedToken = token ? parseJwt(token) : null;
+// @ts-ignore
+watch([keycloak, token], ([newKc, oldKc], [newTk, oldTk]) => {
+  if (newKc) {
+    console.log(newKc.createLogoutUrl());
+    logoutUrl.value = newKc.createLogoutUrl();
+  }
 
-let fullName = computed(() => encodedToken.given_name + ' ' + encodedToken.family_name)
-
-watch(keycloak, (newVal, oldVal) => {
-  if (newVal) {
-    console.log(newVal.createLogoutUrl());
-    logoutUrl.value = newVal.createLogoutUrl();
+  if (newTk) {
+    encodedToken.value = parseJwt(token);
+    // @ts-ignore
+    fullName.value = encodedToken.value.given_name + ' ' + encodedToken.value.family_name;
   }
 })
 
+// @ts-ignore
 </script>
 
 <template>

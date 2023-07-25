@@ -8,6 +8,7 @@ pinia.use(piniaPluginPersistedstate);
 export const useAppStore = defineStore('app', {
   state: () => ({
     keycloak: null,
+    token: null,
   }),
   getters: {},
   actions: {
@@ -31,7 +32,7 @@ export const useAppStore = defineStore('app', {
         });
 
         if (auth) {
-          localStorage.setItem('token', keycloak.token);
+          this.token = keycloak.token;
         }
       } catch (error) {
         console.error(error);
