@@ -1,0 +1,1 @@
+import{_ as e,o as t,c as o,a as c}from"./index-1e73482b.js";const n={},s=c("h1",null,"Inventory View",-1),r=[s];function _(a,i){return t(),o("div",null,r)}const d=e(n,[["render",_]]);export{d as default};
