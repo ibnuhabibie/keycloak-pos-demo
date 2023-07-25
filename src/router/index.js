@@ -12,11 +12,13 @@ const router = createRouter({
       component: HomeView,
     },
     {
-      path: '/*',
+      path: '/403',
+      name: '403',
+      component: () => import('../views/ForbiddenView.vue'),
+    },
+    {
+      path: '/:name',
       name: 'other',
-      meta: {
-        checkAccess: true,
-      },
       component: () => import('../views/OtherView.vue'),
     },
   ],
@@ -24,7 +26,16 @@ const router = createRouter({
 
 router.beforeEach(async (to, from) => {
   const appStore = useAppStore();
-  await appStore.auth();
+  if (!appStore.token) await appStore.auth();
+
+  console.log(to);
+
+  if (to.name == 'other') {
+    let name = to.params.name.split('-').join('.');
+    let isAllow = appStore.access.includes(name);
+    console.log(name, appStore.access, isAllow);
+    if (!isAllow) return router.push('/403');
+  }
 });
 
 export default router;

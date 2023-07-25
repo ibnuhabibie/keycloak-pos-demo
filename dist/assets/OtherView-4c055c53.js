@@ -1,0 +1,1 @@
+import{u as t,o as a,c as s,t as o,a as r}from"./index-fdcbf105.js";const c={class:"capitalize py-4"},_={__name:"OtherView",setup(i){let e=t().params.name.split("-").join(" ");return(p,l)=>(a(),s("h1",c,"This is "+o(r(e))+" Page",1))}};export{_ as default};
