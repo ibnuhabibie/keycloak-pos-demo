@@ -24,7 +24,7 @@ function parseJwt(token) {
 }
 
 // @ts-ignore
-watch([keycloak, token], ([newKc, oldKc], [newTk, oldTk]) => {
+watch([keycloak, token], ([newKc, newTk], [oldKc, oldTk]) => {
   if (newKc) {
     console.log(newKc.createLogoutUrl());
     logoutUrl.value = newKc.createLogoutUrl();
